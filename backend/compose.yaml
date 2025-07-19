@@ -1,0 +1,31 @@
+﻿services:
+  vendingmachine:
+    image: vendingmachine
+    build:
+      context: .
+      dockerfile: VendingMachine.API/Dockerfile
+    networks:
+      - vending-machine-network
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+  
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: VendingMachine
+    volumes:
+      - postgres:/var/lib/postgres/data
+    networks:
+      - vending-machine-network
+    ports:
+      - "5432:5432"
+
+networks:
+  vending-machine-network:
+    
+volumes:
+  postgres:

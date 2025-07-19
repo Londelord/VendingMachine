@@ -1,0 +1,15 @@
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\bin\Debug\net9.0\VendingMachine.Application.deps.json
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\bin\Debug\net9.0\VendingMachine.Application.dll
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\bin\Debug\net9.0\VendingMachine.Application.pdb
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\bin\Debug\net9.0\VendingMachine.Data.dll
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\bin\Debug\net9.0\VendingMachine.Data.pdb
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.csproj.AssemblyReference.cache
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.AssemblyInfoInputs.cache
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.AssemblyInfo.cs
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.csproj.CoreCompileInputs.cache
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingM.38339596.Up2Date
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.dll
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\refint\VendingMachine.Application.dll
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\VendingMachine.Application.pdb
+C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Application\obj\Debug\net9.0\ref\VendingMachine.Application.dll
