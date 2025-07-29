@@ -1,13 +1,17 @@
 ﻿import React from "react";
-import { Button, InputNumber, Table } from "antd";
+import { ConfigProvider, Table } from "antd";
 import {
   AmountText,
   BoldText,
   Container,
   Footer,
+  GreenButton,
   QuantityControl,
+  StyledIncButton,
+  StyledInputNumber,
   SummaryRow,
   Title,
+  YellowButton,
 } from "./PaymentPageStyles.ts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,9 +27,11 @@ import CoinIcon from "../../Components/CoinIcon/CoinIcon.tsx";
 import useNotification from "antd/es/notification/useNotification";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
+import useLock from "../../Hooks/UseLock.ts";
 
 const PaymentPage: React.FC = () => {
   const dispatch = useDispatch();
+  useLock();
 
   const [api, contextHolder] = useNotification();
 
@@ -44,6 +50,7 @@ const PaymentPage: React.FC = () => {
   }, 0);
 
   const handleChange = (coinId: number, value: number) => {
+    if (value < 0) return;
     dispatch(updateCoinQuantity({ denomination: coinId, quantity: value }));
   };
 
@@ -74,6 +81,8 @@ const PaymentPage: React.FC = () => {
         coins: coins,
       };
 
+      console.log(request.products);
+
       const response = await BackendService.Pay(request);
 
       const responseChange = response.data;
@@ -95,10 +104,9 @@ const PaymentPage: React.FC = () => {
       let errorMessage = "Не удалось произвести оплату";
 
       if (axios.isAxiosError(error)) {
-        if (error.response && typeof error.response.data === 'string') {
+        if (error.response && typeof error.response.data === "string") {
           errorMessage = error.response.data;
-        }
-        else if (error.request) {
+        } else if (error.request) {
           errorMessage = "Сервер не ответил на запрос";
         }
       }
@@ -120,88 +128,97 @@ const PaymentPage: React.FC = () => {
 
   return (
     <Container>
-      {contextHolder}
-      <Title>Оплата</Title>
-      <Table
-        dataSource={coins}
-        pagination={false}
-        rowKey="denomination"
-        columns={[
-          {
-            title: "Номинал",
-            render: (coin: Coin) => (
-              <div style={{ display: "flex", gap: 16 }}>
-                <CoinIcon size={36} value={coin.denomination} />
-                <span style={{ margin: "auto 0" }}>
-                  {getRublesString(coin.denomination)}
-                </span>
-              </div>
-            ),
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: "cursive, sans-serif",
           },
-          {
-            title: "Количество",
-            render: (coin: Coin) => (
-              <QuantityControl>
-                <Button
-                  onClick={() =>
-                    handleChange(coin.denomination, coin.quantity - 1)
-                  }
-                >
-                  -
-                </Button>
-                <InputNumber
-                  value={coin.quantity}
-                  min={0}
-                  onChange={(val) =>
-                    handleChange(coin.denomination, Number(val) || 0)
-                  }
-                />
-                <Button
-                  onClick={() =>
-                    handleChange(coin.denomination, coin.quantity + 1)
-                  }
-                >
-                  +
-                </Button>
-              </QuantityControl>
-            ),
+          components: {
+            Table: {
+              headerBg: "transparent",
+              headerSplitColor: "transparent",
+            },
           },
-          {
-            title: "Сумма",
-            render: (coin: Coin) => (
-              <span>{coin.denomination * coin.quantity} руб.</span>
-            ),
-          },
-        ]}
-      />
-      <SummaryRow>
-        <span>
-          Итоговая сумма: <BoldText>{totalToPay} руб.</BoldText>
-        </span>
-        <span>
-          Вы внесли:{"  "}
-          <AmountText $isEnough={paidAmount >= totalToPay}>
-            {paidAmount} руб.
-          </AmountText>
-        </span>
-      </SummaryRow>
-      <Footer>
-        <Button
-          color="orange"
-          variant="solid"
-          onClick={() => navigate("/order")}
-        >
-          Вернуться
-        </Button>
-        <Button
-          color="green"
-          variant="solid"
-          disabled={paidAmount < totalToPay}
-          onClick={() => handlePay()}
-        >
-          Оплатить
-        </Button>
-      </Footer>
+        }}
+      >
+        {contextHolder}
+        <Title>Оплата</Title>
+        <Table
+          dataSource={coins}
+          pagination={false}
+          rowKey="denomination"
+          columns={[
+            {
+              title: "Номинал",
+              render: (coin: Coin) => (
+                <div style={{ display: "flex", gap: 16 }}>
+                  <CoinIcon size={36} value={coin.denomination} />
+                  <span style={{ margin: "auto 0" }}>
+                    {getRublesString(coin.denomination)}
+                  </span>
+                </div>
+              ),
+            },
+            {
+              title: "Количество",
+              render: (coin: Coin) => (
+                <QuantityControl>
+                  <StyledIncButton
+                    onClick={() =>
+                      handleChange(coin.denomination, coin.quantity - 1)
+                    }
+                  >
+                    -
+                  </StyledIncButton>
+                  <StyledInputNumber
+                    type={"number"}
+                    value={coin.quantity}
+                    min={0}
+                    onChange={(val) =>
+                      handleChange(coin.denomination, Number(val) || 0)
+                    }
+                  />
+                  <StyledIncButton
+                    onClick={() =>
+                      handleChange(coin.denomination, coin.quantity + 1)
+                    }
+                  >
+                    +
+                  </StyledIncButton>
+                </QuantityControl>
+              ),
+            },
+            {
+              title: "Сумма",
+              render: (coin: Coin) => (
+                <strong>{coin.denomination * coin.quantity} руб.</strong>
+              ),
+            },
+          ]}
+        />
+        <SummaryRow>
+          <span>
+            Итоговая сумма: <BoldText>{totalToPay} руб.</BoldText>
+          </span>
+          <span>
+            Вы внесли:{"  "}
+            <AmountText $isEnough={paidAmount >= totalToPay}>
+              {paidAmount} руб.
+            </AmountText>
+          </span>
+        </SummaryRow>
+        <Footer>
+          <YellowButton onClick={() => navigate("/order")}>
+            Вернуться
+          </YellowButton>
+          <GreenButton
+            disabled={paidAmount < totalToPay}
+            onClick={() => handlePay()}
+          >
+            Оплатить
+          </GreenButton>
+        </Footer>
+      </ConfigProvider>
     </Container>
   );
 };

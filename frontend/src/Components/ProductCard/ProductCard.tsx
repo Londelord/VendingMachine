@@ -1,5 +1,4 @@
-﻿import { Button, Image } from "antd";
-import { type Product } from "../../types.ts";
+﻿import { type Product } from "../../types.ts";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Stores/Store.ts";
 import {
@@ -10,7 +9,12 @@ import {
   removeProductQuantity,
   updateProductQuantities,
 } from "../../Stores/Slices/OrderSlice.ts";
-import { StyledCard, StyledProperty } from "./ProductCardStyles.ts";
+import {
+  StyledButton,
+  StyledCard,
+  StyledImage,
+  StyledProperty,
+} from "./ProductCardStyles.ts";
 
 interface Props {
   product: Product;
@@ -26,6 +30,7 @@ const ProductCard = ({ product }: Props) => {
   );
 
   const isSelected = selectedProducts.some((p) => p.id === product.id);
+  const isOutOfStock = product.quantity === 0;
 
   const handleSelect = () => {
     if (isSelected) {
@@ -39,12 +44,7 @@ const ProductCard = ({ product }: Props) => {
 
   return (
     <StyledCard>
-      <Image
-        alt={alt}
-        fallback="/no-image.png"
-        src={product.image}
-        style={{}}
-      />
+      <StyledImage alt={alt} src={product.imageUrl || "/no-image.png"} />
       <h3>{product.name}</h3>
       <StyledProperty>
         <p>Цена: {product.price} руб.</p>
@@ -53,14 +53,13 @@ const ProductCard = ({ product }: Props) => {
         <p>Количество: {product.quantity} шт.</p>
       </StyledProperty>
       <StyledProperty>
-        <Button
-          disabled={product.quantity === 0}
-          color={isSelected ? "green" : "orange"}
-          variant={"solid"}
+        <StyledButton
+          disabled={isOutOfStock}
           onClick={handleSelect}
+          $isSelected={isSelected}
         >
-          {isSelected ? "Выбран" : "Выбрать"}
-        </Button>
+          {isOutOfStock ? "Закончился" : isSelected ? "Убрать" : "Выбрать"}
+        </StyledButton>
       </StyledProperty>
     </StyledCard>
   );

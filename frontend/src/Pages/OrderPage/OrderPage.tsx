@@ -1,18 +1,32 @@
-﻿import { Button, InputNumber, Table } from "antd";
+﻿import { Button, ConfigProvider, Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { Container, Footer, Title, Total } from "./OrderPageStyles.ts";
+import {
+  Container,
+  StyledFooter,
+  GreenButton,
+  StyledIncButton,
+  StyledInputNumber,
+  Title,
+  Total,
+  YellowButton,
+  StyledButtonsDiv,
+} from "./OrderPageStyles.ts";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Stores/Store.ts";
 import { removeSelectedProduct } from "../../Stores/Slices/ProductSlice.ts";
 import { useEffect } from "react";
 import {
+  removeProductQuantity,
   setSum,
   updateProductQuantities,
 } from "../../Stores/Slices/OrderSlice.ts";
 import { useNavigate } from "react-router-dom";
 import type { Product } from "../../types.ts";
+import useLock from "../../Hooks/UseLock.ts";
 
 const OrderPage = () => {
+  useLock();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,11 +50,13 @@ const OrderPage = () => {
 
   const removeProduct = (id: number) => {
     dispatch(removeSelectedProduct(id));
+    dispatch(removeProductQuantity(id));
   };
 
   const selectedProductsIsEmpty = selectedProducts.length === 0;
 
   useEffect(() => {
+    console.log(productQuantities);
     const total = selectedProducts.reduce((sum, product) => {
       const match = productQuantities.find((q) => q.id === product.id);
       const quantity = match ? match.quantity : 0;
@@ -57,9 +73,14 @@ const OrderPage = () => {
       render: (product: Product) => (
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <img
-            src={product.image}
+            src={product.imageUrl}
             alt={product.name}
-            style={{ width: 48, height: 64, objectFit: "cover" }}
+            style={{
+              width: 48,
+              height: 64,
+              objectFit: "cover",
+              marginRight: 16,
+            }}
           />
           <span>{product.name}</span>
         </div>
@@ -73,11 +94,13 @@ const OrderPage = () => {
           productQuantities.find((q) => q.id === product.id)?.quantity ?? 1;
 
         return (
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Button onClick={() => updateQuantity(product.id, quantity - 1)}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <StyledIncButton
+              onClick={() => updateQuantity(product.id, quantity - 1)}
+            >
               -
-            </Button>
-            <InputNumber
+            </StyledIncButton>
+            <StyledInputNumber
               min={1}
               max={product.quantity}
               value={quantity}
@@ -85,9 +108,11 @@ const OrderPage = () => {
                 updateQuantity(product.id, Number(value) || 1)
               }
             />
-            <Button onClick={() => updateQuantity(product.id, quantity + 1)}>
+            <StyledIncButton
+              onClick={() => updateQuantity(product.id, quantity + 1)}
+            >
               +
-            </Button>
+            </StyledIncButton>
           </div>
         );
       },
@@ -95,63 +120,80 @@ const OrderPage = () => {
     {
       title: "Цена",
       key: "price",
-      render: (selectedProduct: Product) =>
-        `${
-          selectedProduct.price *
-          (productQuantities.find((p) => p.id === selectedProduct.id)
-            ?.quantity || 0)
-        } руб.`,
+      render: (selectedProduct: Product) => (
+        <strong style={{ fontSize: 16 }}>
+          {selectedProduct.price *
+            (productQuantities.find((p) => p.id === selectedProduct.id)
+              ?.quantity || 0)}{" "}
+          руб.
+        </strong>
+      ),
     },
     {
       title: "",
       key: "remove",
       render: (product: Product) => (
         <Button
-          danger
           type="text"
           icon={<DeleteOutlined />}
           onClick={() => removeProduct(product.id)}
+          style={{ fontSize: 20 }}
         />
       ),
     },
   ];
 
   return (
-    <Container>
-      <Title>Оформление заказа</Title>
-      {!selectedProductsIsEmpty ? (
-        <Table
-          dataSource={selectedProducts}
-          rowKey="id"
-          columns={columns}
-          pagination={false}
-        />
-      ) : (
-        <div>
-          <Title>
-            У вас нет ни одного товара, вернитесь на страницу каталога
-          </Title>
-        </div>
-      )}
+    <>
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: "cursive, sans-serif",
+          },
+          components: {
+            Table: {
+              headerBg: "transparent",
+              headerSplitColor: "transparent",
+            },
+          },
+        }}
+      >
+        <Container>
+          <Title>Оформление заказа</Title>
+          {!selectedProductsIsEmpty ? (
+            <Table
+              dataSource={selectedProducts}
+              rowKey="id"
+              columns={columns}
+              pagination={false}
+            />
+          ) : (
+            <div>
+              <Title>
+                У вас нет ни одного товара, вернитесь на страницу каталога
+              </Title>
+            </div>
+          )}
 
-      <Footer>
-        <Button color="orange" variant="solid" onClick={() => navigate("/")}>
-          Вернуться
-        </Button>
-        <div>
-          <Total>Итоговая сумма: {total} руб.</Total>
-          <Button
-            color="green"
-            variant="solid"
-            disabled={selectedProductsIsEmpty}
-            style={{ marginTop: 8 }}
-            onClick={() => navigate("/payment")}
-          >
-            Оплата
-          </Button>
-        </div>
-      </Footer>
-    </Container>
+          <StyledFooter>
+            <Total>
+              Итоговая сумма: <strong>{total} руб.</strong>
+            </Total>
+            <StyledButtonsDiv>
+              <YellowButton onClick={() => navigate("/")}>
+                Вернуться
+              </YellowButton>
+              <GreenButton
+                disabled={selectedProductsIsEmpty}
+                onClick={() => navigate("/payment")}
+              >
+                Оплата
+              </GreenButton>
+            </StyledButtonsDiv>
+          </StyledFooter>
+        </Container>
+      </ConfigProvider>
+    </>
   );
 };
 

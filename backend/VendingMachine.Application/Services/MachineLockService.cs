@@ -1,12 +1,10 @@
-﻿using System;
+﻿using VendingMachine.Application.Interfaces;
 
 namespace VendingMachine.Application.Services
 {
-    public class MachineLockService
+    public class MachineLockService : IMachineLockService
     {
         private readonly object _lock = new object();
-        private DateTime? _lockTime;
-
         public string? CurrentToken { get; private set; }
 
         public bool TryLock(string token)
@@ -15,11 +13,11 @@ namespace VendingMachine.Application.Services
             {
                 if (CurrentToken != null)
                 {
-                    if (CurrentToken != token && !((DateTime.Now - _lockTime)?.TotalMinutes >= 3)) return false;
+                    if (CurrentToken != token)
+                        return false;
                 }
 
                 CurrentToken = token;
-                _lockTime = DateTime.Now;
                 return true;
             }
         }
@@ -30,7 +28,6 @@ namespace VendingMachine.Application.Services
             {
                 if (CurrentToken != token) return;
                 CurrentToken = null;
-                _lockTime = null;
             }
         }
     }

@@ -104,6 +104,12 @@ const AdminNavbar = () => {
             <InputNumber min={0} style={{ width: "100%" }} />
           </Form.Item>
           <Form.Item
+            name={"imageUrl"}
+            label="Url картинки"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             name={"brandId"}
             label="Бренд"
             rules={[{ required: true }]}

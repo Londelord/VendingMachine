@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VendingMachine.Application.Interfaces;
 using VendingMachine.Application.Services;
 
 namespace VendingMachine.API.Controllers;
@@ -7,9 +8,9 @@ namespace VendingMachine.API.Controllers;
 [Route("api/vendingmachine")]
 public class LockMachineController : ControllerBase
 {
-    private readonly MachineLockService _lockService;
+    private readonly IMachineLockService _lockService;
 
-    public LockMachineController(MachineLockService lockService)
+    public LockMachineController(IMachineLockService lockService)
     {
         _lockService = lockService;
     }
@@ -25,14 +26,5 @@ public class LockMachineController : ControllerBase
     {
         _lockService.Unlock(token);
         return Ok();
-    }
-
-    [HttpGet("status")]
-    public IActionResult Status()
-    {
-        return Ok(new
-        {
-            locked = _lockService.CurrentToken != null
-        });
     }
 }

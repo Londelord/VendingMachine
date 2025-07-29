@@ -7,6 +7,7 @@ import {
 } from "../../Stores/Slices/AdminPageSlice.ts";
 import type { UpdateProductRequest } from "../../BackendService/Contracts.ts";
 import { StyledCol, StyledRow } from "./AdminListStyles.ts";
+import Title from "antd/es/typography/Title";
 
 const AdminList = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -28,7 +29,7 @@ const AdminList = () => {
     dispatch(setEditedProducts(updatedProducts));
   };
 
-  return (
+  return products.length > 0 ? (
     <StyledRow gutter={[16, 16]}>
       {products.map((product) => (
         <StyledCol key={product.id} xs={24} sm={12} md={8} lg={6} xl={6}>
@@ -36,6 +37,10 @@ const AdminList = () => {
         </StyledCol>
       ))}
     </StyledRow>
+  ) : (
+    <div style={{ width: "75%", textAlign: "center" }}>
+      <Title level={1}>Нет продуктов</Title>
+    </div>
   );
 };
 

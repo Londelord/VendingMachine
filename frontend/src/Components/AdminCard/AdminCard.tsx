@@ -1,7 +1,7 @@
-﻿import { Image, InputNumber } from "antd";
+﻿import { InputNumber } from "antd";
 import type { Product } from "../../types.ts";
 import type { UpdateProductRequest } from "../../BackendService/Contracts.ts";
-import { StyledCard, StyledProperty } from "./AdminCardStyles.ts";
+import { StyledCard, StyledImage, StyledProperty } from "./AdminCardStyles.ts";
 
 interface Props {
   product: Product;
@@ -31,11 +31,9 @@ const AdminCard = ({ product, onInputChange }: Props) => {
 
   return (
     <StyledCard>
-      <Image
+      <StyledImage
         alt={alt}
-        fallback="/no-image.png"
-        src={product.image}
-        style={{}}
+        src={product.imageUrl || "/no-image.png"}
       />
       <h3>{product.name}</h3>
       <StyledProperty>

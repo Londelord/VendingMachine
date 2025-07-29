@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VendingMachine.Data.DataAccess;
+using VendingMachine.Data.Interfaces;
 using VendingMachine.Data.Models;
 
 namespace VendingMachine.Data.Repositories;
 
-public class BrandsRepository
+public class BrandsRepository : IBrandsRepository
 {
     private readonly VendingMachineDbContext _context;
 

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VendingMachine.Data.DataAccess;
+using VendingMachine.Data.Interfaces;
 using VendingMachine.Data.Models;
 
 namespace VendingMachine.Data.Repositories;
 
-public class ProductsRepository
+public class ProductsRepository : IProductsRepository
 {
     private readonly VendingMachineDbContext _context;
 
@@ -17,11 +18,10 @@ public class ProductsRepository
         .Include(p => p.Brand)
         .ToListAsync();
 
-    public async Task<Product> AddProduct(Product product)
+    public async Task AddProduct(Product product)
     {
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
-        return product;
     }
 
     public async Task<Product[]> ImportProducts(Product[] newProducts)
@@ -35,8 +35,6 @@ public class ProductsRepository
         return await _context.Products.ToArrayAsync();
     }
     
-    public async Task<Product?> GetProduct(int id) => await _context.Products.FindAsync(id);
-
     public async Task UpdateProducts(Product[] products)
     {
         foreach (var product in products)

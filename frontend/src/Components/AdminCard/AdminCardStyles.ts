@@ -2,16 +2,20 @@
 import { Card } from "antd";
 
 export const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   padding: 16px;
   width: 250px;
   gap: 8px;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
 `;
+
+export const StyledImage = styled.img`
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+`
 
 export const StyledProperty = styled("div")`
   gap: 16px;

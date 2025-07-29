@@ -4,21 +4,30 @@ import { useNavigate } from "react-router-dom";
 import CardList from "../../Components/CardList/CardList.tsx";
 import { BackendService } from "../../BackendService/BackendService.ts";
 import { setBrands, setProducts } from "../../Stores/Slices/ProductSlice.ts";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterBar from "../../Components/FilterBar/FilterBar.tsx";
-import { StyledHeader, ToAdminButton } from "./RootPageStyles.ts";
+import {
+  FilterBarAndHeaderDiv,
+  NavigationButtonsDiv,
+  StyledButton,
+  StyledHeader,
+  ToAdminButton
+} from "./RootPageStyles.ts";
+import type { RootState } from "../../Stores/Store.ts";
+import useLock from "../../Hooks/UseLock.ts";
 
 function RootPage() {
+  useLock();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    BackendService.TryLock().then((res) => {
-      if (!res) {
-        navigate("/waiting");
-      }
-    });
-  }, [navigate]);
+  const selectedProducts = useSelector((state: RootState) => state.product_brands.selectedProducts);
+
+  const navigateToOrder = async () => {
+    navigate("/order");
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,21 +46,32 @@ function RootPage() {
   }, [dispatch]);
 
   const navigateToAdmin = async () => {
-    await BackendService.Unlock();
     navigate("/admin");
   };
 
   return (
     <>
       <StyledHeader>
-        <h1>Газированные напитки</h1>
-        <ToAdminButton onClick={() => navigateToAdmin()}>
-          Админ-страница
-        </ToAdminButton>
+        <FilterBarAndHeaderDiv>
+          <h1>Газированные напитки</h1>
+          <FilterBar />
+        </FilterBarAndHeaderDiv>
+        <NavigationButtonsDiv>
+          <ToAdminButton onClick={() => navigateToAdmin()}>
+            Админ-страница
+          </ToAdminButton>
+          <StyledButton
+            disabled={selectedProducts.length === 0}
+            onClick={() => {
+              navigateToOrder();
+            }}
+          >
+            Выбрано: {selectedProducts.length}
+          </StyledButton>
+        </NavigationButtonsDiv>
       </StyledHeader>
-      <Divider />
-      <FilterBar />
-      <Divider />
+
+      <Divider style={{ margin: "16px 0px 32px 0px" }} />
       <CardList />
     </>
   );

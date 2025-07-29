@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VendingMachine.API.Contracts;
 using VendingMachine.Application.Services;
+using VendingMachine.Data.Interfaces;
 using VendingMachine.Data.Models;
 using VendingMachine.Data.Repositories;
 
@@ -11,10 +12,10 @@ namespace VendingMachine.API.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
-    private readonly ProductsRepository _productsRepository;
+    private readonly IProductsRepository _productsRepository;
 
     public ProductController(ILogger<ProductController> logger,
-        ProductsRepository productsRepository)
+        IProductsRepository productsRepository)
     {
         _logger = logger;
         _productsRepository = productsRepository;
@@ -28,7 +29,8 @@ public class ProductController : ControllerBase
             Name = request.Name,
             BrandId = request.BrandId,
             Price = request.Price,
-            Quantity = request.Quantity
+            Quantity = request.Quantity,
+            ImageUrl = request.ImageUrl
         };
 
         await _productsRepository.AddProduct(product);
@@ -40,8 +42,11 @@ public class ProductController : ControllerBase
     {
         var products = request.Select(requestProduct => new Product
         {
-            Name = requestProduct.Name, BrandId = requestProduct.BrandId, Price = requestProduct.Price,
-            Quantity = requestProduct.Quantity
+            Name = requestProduct.Name,
+            BrandId = requestProduct.BrandId,
+            Price = requestProduct.Price,
+            Quantity = requestProduct.Quantity,
+            ImageUrl = requestProduct.ImageUrl
         }).ToArray();
 
         try
@@ -64,7 +69,7 @@ public class ProductController : ControllerBase
             var products = await _productsRepository.GetAllProducts();
             var responseProducts = products.Select(product =>
                     new GetProductResponse(product.Id, product.Name, product.Price, product.Quantity,
-                        new GetBrandResponse(product.Brand.Id, product.Brand.Name), ""))
+                        new GetBrandResponse(product.Brand.Id, product.Brand.Name), product.ImageUrl))
                 .ToArray();
 
             return Ok(responseProducts);

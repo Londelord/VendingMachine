@@ -9,6 +9,6 @@ export const IconDiv = styled.div<{ size: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   border: 1px solid black;
+  font-size: ${({ size }) => size * 0.5}px;
 `;

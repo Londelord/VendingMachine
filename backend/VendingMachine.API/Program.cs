@@ -1,6 +1,8 @@
+using VendingMachine.Application.Interfaces;
 using VendingMachine.Application.Services;
 using VendingMachine.Data.DataAccess;
 using VendingMachine.Data.Initializers;
+using VendingMachine.Data.Interfaces;
 using VendingMachine.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,12 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<VendingMachineDbContext>();
-builder.Services.AddScoped<PayService>();
-builder.Services.AddScoped<ProductsRepository>();
-builder.Services.AddScoped<BrandsRepository>();
-builder.Services.AddScoped<CoinRepository>();
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddSingleton<MachineLockService>();
+builder.Services.AddScoped<IPayService, PayService>();
+builder.Services.AddSingleton<IMachineLockService, MachineLockService>();
+builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+builder.Services.AddScoped<IBrandsRepository, BrandsRepository>();
+builder.Services.AddScoped<ICoinsRepository, CoinsRepository>();
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 
 var app = builder.Build();
 

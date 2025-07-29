@@ -4,7 +4,7 @@
   price: number;
   quantity: number;
   brand: Brand;
-  image: string;
+  imageUrl: string;
 }
 
 export interface Brand {

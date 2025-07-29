@@ -11,15 +11,19 @@ import type { AddProductRequest } from "../../BackendService/Contracts.ts";
 import * as XLSX from "xlsx";
 import { CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { MainDiv, StyledHeader } from "./AdminPageStyles.ts";
+import useLock from "../../Hooks/UseLock.ts";
 
 interface ExcelProduct {
   Name: string | undefined;
   BrandId: number | undefined;
   Price: number | undefined;
   Quantity: number | undefined;
+  ImageUrl: string | undefined;
 }
 
 function AdminPage() {
+  useLock();
+
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
@@ -60,12 +64,14 @@ function AdminPage() {
           brandId: Number(item.BrandId),
           price: Number(item.Price ?? 0),
           quantity: Number(item.Quantity ?? 0),
+          imageUrl: item.ImageUrl ?? "",
         };
       });
 
       const updatedProducts =
         await BackendService.ImportProducts(productsToAdd);
       dispatch(setProducts(updatedProducts));
+
       api.success({
         message: "Продукты добавлены",
         description: "Новый список продуктов успешно импортирован",

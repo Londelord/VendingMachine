@@ -5,6 +5,7 @@ export interface AddProductRequest {
   brandId: number;
   price: number;
   quantity: number;
+  imageUrl: string;
 }
 
 export interface UpdateProductRequest {

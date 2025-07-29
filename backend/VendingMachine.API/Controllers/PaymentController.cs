@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VendingMachine.API.Contracts;
+using VendingMachine.Application.Interfaces;
 using VendingMachine.Application.Services;
 using VendingMachine.Data.Models;
 
@@ -9,10 +10,10 @@ namespace VendingMachine.API.Controllers;
 [Route("api/vendingmachine/payment")]
 public class PaymentController : ControllerBase
 {
-    private readonly PayService _payService;
+    private readonly IPayService _payService;
     private readonly ILogger<PaymentController> _logger;
 
-    public PaymentController(PayService payService, ILogger<PaymentController> logger)
+    public PaymentController(IPayService payService, ILogger<PaymentController> logger)
     {
         _payService = payService;
         _logger = logger;

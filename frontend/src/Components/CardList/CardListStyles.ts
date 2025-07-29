@@ -2,10 +2,14 @@
 import { Col, Row } from "antd";
 
 export const StyledRow = styled(Row)`
-  margin: 0 -8px;
-  width: 70%;
+  width: 60%;
 `;
 
 export const StyledCol = styled(Col)`
-  padding: 0 8px;
+  padding: 0 8;
 `;
+
+export const MainDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`

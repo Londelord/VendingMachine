@@ -7,7 +7,7 @@ import type {
 } from "./Contracts.ts";
 
 export class BackendService {
-  static baseURl = "http://localhost:8080/api";
+  public static baseURl = "http://localhost:8080/api";
 
   static async GetAllProducts(): Promise<Product[]> {
     const response = await axios.get<Product[]>(
@@ -43,7 +43,7 @@ export class BackendService {
   static async ImportProducts(
     products: AddProductRequest[],
   ): Promise<Product[]> {
-    const result = await axios.post(
+    const result = await axios.post<Product[]>(
       this.baseURl + "/vendingmachine/products/import",
       products,
     );
@@ -63,14 +63,7 @@ export class BackendService {
     return response.data;
   }
 
-  static async Unlock(): Promise<AxiosResponse> {
-    const token = BackendService.getOrCreateToken();
-    return await axios.post<boolean>(
-      this.baseURl + `/vendingmachine/unlock?token=${token}`,
-    );
-  }
-
-  private static getOrCreateToken(): string {
+  public static getOrCreateToken(): string {
     let token = localStorage.getItem("userToken");
     if (!token) {
       token = crypto.randomUUID();
