@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Stores/Store.ts";
 import {
   setChange,
+  setProductQuantities,
   updateCoinQuantity,
 } from "../../Stores/Slices/OrderSlice.ts";
 import type { Coin } from "../../types.ts";
@@ -28,6 +29,7 @@ import useNotification from "antd/es/notification/useNotification";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useLock from "../../Hooks/UseLock.ts";
+import { setSelectedProducts } from "../../Stores/Slices/ProductSlice.ts";
 
 const PaymentPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ const PaymentPage: React.FC = () => {
         coins: coins,
       };
 
-      console.log(request.products);
+      console.log(request.products, request.coins);
 
       const response = await BackendService.Pay(request);
 
@@ -98,6 +100,8 @@ const PaymentPage: React.FC = () => {
       });
 
       dispatch(setChange(updatedChange));
+      dispatch(setSelectedProducts([]));
+      dispatch(setProductQuantities([]));
 
       navigate("/change");
     } catch (error) {

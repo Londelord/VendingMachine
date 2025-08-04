@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.API\\VendingMachine.API.csproj": {}
+    "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.API\\VendingMachine.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.API\\VendingMachine.API.csproj": {
+    "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.API\\VendingMachine.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.API\\VendingMachine.API.csproj",
+        "projectUniqueName": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.API\\VendingMachine.API.csproj",
         "projectName": "VendingMachine.API",
-        "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.API\\VendingMachine.API.csproj",
+        "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.API\\VendingMachine.API.csproj",
         "packagesPath": "C:\\Users\\londelord\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.API\\obj\\",
+        "outputPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\VendingMachine.Application.csproj": {
-                "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\VendingMachine.Application.csproj"
+              "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\VendingMachine.Application.csproj": {
+                "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\VendingMachine.Application.csproj"
               },
-              "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj": {
-                "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj"
+              "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj": {
+                "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj"
               }
             }
           }
@@ -90,14 +90,14 @@
         }
       }
     },
-    "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\VendingMachine.Application.csproj": {
+    "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\VendingMachine.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\VendingMachine.Application.csproj",
+        "projectUniqueName": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\VendingMachine.Application.csproj",
         "projectName": "VendingMachine.Application",
-        "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\VendingMachine.Application.csproj",
+        "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\VendingMachine.Application.csproj",
         "packagesPath": "C:\\Users\\londelord\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Application\\obj\\",
+        "outputPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -119,8 +119,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj": {
-                "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj"
+              "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj": {
+                "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj"
               }
             }
           }
@@ -166,14 +166,14 @@
         }
       }
     },
-    "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj": {
+    "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj",
+        "projectUniqueName": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj",
         "projectName": "VendingMachine.Data",
-        "projectPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\VendingMachine.Data.csproj",
+        "projectPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\VendingMachine.Data.csproj",
         "packagesPath": "C:\\Users\\londelord\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\londelord\\RiderProjects\\VendingMachine\\VendingMachine.Data\\obj\\",
+        "outputPath": "C:\\Users\\londelord\\Documents\\TestTasks\\Intravision\\backend\\VendingMachine.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

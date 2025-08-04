@@ -3,14 +3,12 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface FilterState {
   priceRange: [number, number];
-  availableRange: [number, number];
   selectedBrand: Brand | null;
   filteredProducts: Product[];
 }
 
 const initialState: FilterState = {
   priceRange: [0, 0],
-  availableRange: [0, 0],
   selectedBrand: null,
   filteredProducts: [],
 };
@@ -22,9 +20,6 @@ const filterSlice = createSlice({
     setFilterRange(state, action: PayloadAction<[number, number]>) {
       state.priceRange = action.payload;
     },
-    setAvailableRange(state, action: PayloadAction<[number, number]>) {
-      state.availableRange = action.payload;
-    },
     setSelectedBrand(state, action: PayloadAction<Brand | null>) {
       state.selectedBrand = action.payload;
     },
@@ -34,10 +29,6 @@ const filterSlice = createSlice({
   },
 });
 
-export const {
-  setFilterRange,
-  setSelectedBrand,
-  setFilteredProducts,
-  setAvailableRange,
-} = filterSlice.actions;
+export const { setFilterRange, setSelectedBrand, setFilteredProducts } =
+  filterSlice.actions;
 export default filterSlice.reducer;

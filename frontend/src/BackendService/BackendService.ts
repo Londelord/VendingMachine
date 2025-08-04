@@ -2,6 +2,7 @@
 import type { Brand, Coin, Product } from "../types.ts";
 import type {
   AddProductRequest,
+  GetAllProductsRequest,
   PayRequest,
   UpdateProductRequest,
 } from "./Contracts.ts";
@@ -9,9 +10,24 @@ import type {
 export class BackendService {
   public static baseURl = "http://localhost:8080/api";
 
-  static async GetAllProducts(): Promise<Product[]> {
+  static async GetAllProducts(
+    request: GetAllProductsRequest = {
+      brandName: null,
+      startPrice: null,
+      endPrice: null,
+    },
+  ): Promise<Product[]> {
+    const params = new URLSearchParams();
+
+    if (request.brandName)
+      params.append("brandName", request.brandName.toLowerCase());
+    if (request.startPrice !== null && request.startPrice !== undefined)
+      params.append("startPrice", String(request.startPrice));
+    if (request.endPrice !== null && request.endPrice !== undefined)
+      params.append("endPrice", String(request.endPrice));
+
     const response = await axios.get<Product[]>(
-      this.baseURl + "/vendingmachine/products",
+      this.baseURl + "/vendingmachine/products?" + params.toString(),
     );
     return response.data;
   }
@@ -51,7 +67,10 @@ export class BackendService {
   }
 
   static async Pay(request: PayRequest): Promise<AxiosResponse<Coin[]>> {
-    return await axios.post<Coin[]>(this.baseURl + "/vendingmachine/payment", request);
+    return await axios.post<Coin[]>(
+      this.baseURl + "/vendingmachine/payment",
+      request,
+    );
   }
 
   static async TryLock(): Promise<boolean> {

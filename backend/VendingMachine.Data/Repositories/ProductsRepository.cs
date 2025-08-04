@@ -14,9 +14,26 @@ public class ProductsRepository : IProductsRepository
         _context = context;
     }
 
-    public async Task<List<Product>> GetAllProducts() => await _context.Products
-        .Include(p => p.Brand)
-        .ToListAsync();
+    public async Task<List<Product>> GetAllProducts(string? brandName = null, int? startPrice = null, int? endPrice = null)
+    {
+        var query = _context.Products.Include(p => p.Brand).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(brandName))
+        {
+            query = query.Where(p => p.Brand.Name.ToLower() == brandName.ToLower());
+        }
+
+        if (startPrice.HasValue)
+        {
+            query = query.Where(p => p.Price >= startPrice.Value);
+        }
+
+        if (endPrice.HasValue)
+        {
+            query = query.Where(p => p.Price <= endPrice.Value);
+        }
+
+        return await query.ToListAsync();
+    }
 
     public async Task AddProduct(Product product)
     {
@@ -28,13 +45,13 @@ public class ProductsRepository : IProductsRepository
     {
         var products = await _context.Products.ToListAsync();
         _context.Products.RemoveRange(products);
-        
+
         _context.Products.AddRange(newProducts);
         await _context.SaveChangesAsync();
-        
+
         return await _context.Products.ToArrayAsync();
     }
-    
+
     public async Task UpdateProducts(Product[] products)
     {
         foreach (var product in products)
@@ -46,8 +63,8 @@ public class ProductsRepository : IProductsRepository
                     .SetProperty(p => p.Price, product.Price)
                     .SetProperty(p => p.Quantity, product.Quantity)
                 );
-            
+
             await _context.SaveChangesAsync();
         }
-    }  
+    }
 }

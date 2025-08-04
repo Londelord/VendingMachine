@@ -62,11 +62,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<IActionResult> GetAllProducts([FromQuery] GetAllProductsRequest request)
     {
         try
         {
-            var products = await _productsRepository.GetAllProducts();
+            var products =
+                await _productsRepository.GetAllProducts(request.BrandName, request.StartPrice, request.EndPrice);
             var responseProducts = products.Select(product =>
                     new GetProductResponse(product.Id, product.Name, product.Price, product.Quantity,
                         new GetBrandResponse(product.Brand.Id, product.Brand.Name), product.ImageUrl))

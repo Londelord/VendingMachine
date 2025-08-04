@@ -1,5 +1,4 @@
 ﻿import {
-  Button,
   Form,
   type FormProps,
   Input,
@@ -18,7 +17,7 @@ import {
 } from "../../Stores/Slices/AdminPageSlice.ts";
 import { setProducts } from "../../Stores/Slices/ProductSlice.ts";
 import { CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
-import { MainDiv } from "./AdminNavbarStyles.ts";
+import { MainDiv, StyledForm, StyledGreenButton } from "./AdminNavbarStyles.ts";
 
 const AdminNavbar = () => {
   const dispatch = useDispatch();
@@ -72,13 +71,8 @@ const AdminNavbar = () => {
   return (
     <MainDiv>
       {contextHolder}
-      <Form<AddProductRequest>
+      <StyledForm
         onFinish={onFinish}
-        style={{
-          border: "1px solid #ededed",
-          padding: "24px",
-          borderRadius: 16,
-        }}
       >
         <Space direction="vertical">
           <h1>Добавить продукт</h1>
@@ -123,15 +117,15 @@ const AdminNavbar = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <StyledGreenButton type="submit">
               Добавить
-            </Button>
+            </StyledGreenButton>
           </Form.Item>
         </Space>
-      </Form>
-      <Button onClick={onConfirmEditing} disabled={!isEdited} type="primary">
+      </StyledForm>
+      <StyledGreenButton onClick={onConfirmEditing} disabled={!isEdited}>
         Подтвердить изменения
-      </Button>
+      </StyledGreenButton>
     </MainDiv>
   );
 };

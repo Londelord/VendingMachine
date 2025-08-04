@@ -11,7 +11,7 @@ import {
   NavigationButtonsDiv,
   StyledButton,
   StyledHeader,
-  ToAdminButton
+  ToAdminButton,
 } from "./RootPageStyles.ts";
 import type { RootState } from "../../Stores/Store.ts";
 import useLock from "../../Hooks/UseLock.ts";
@@ -22,12 +22,13 @@ function RootPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const selectedProducts = useSelector((state: RootState) => state.product_brands.selectedProducts);
+  const selectedProducts = useSelector(
+    (state: RootState) => state.product_brands.selectedProducts,
+  );
 
   const navigateToOrder = async () => {
     navigate("/order");
   };
-
 
   useEffect(() => {
     const fetchData = async () => {

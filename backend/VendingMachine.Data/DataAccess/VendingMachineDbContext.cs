@@ -36,5 +36,11 @@ public class VendingMachineDbContext : DbContext
             .HasConversion(
                 v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
                 v => JsonSerializer.Deserialize<List<ArchivedProduct>>(v, new JsonSerializerOptions())!);
+        
+        modelBuilder.Entity<Brand>()
+            .HasIndex(b => b.Name);
+
+        modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Price); 
     }
 }

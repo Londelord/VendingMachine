@@ -10,3 +10,16 @@ C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Data\obj\Debug\ne
 C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Data\obj\Debug\net9.0\refint\VendingMachine.Data.dll
 C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.pdb
 C:\Users\londelord\RiderProjects\VendingMachine\VendingMachine.Data\obj\Debug\net9.0\ref\VendingMachine.Data.dll
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\bin\Debug\net9.0\VendingMachine.Data.deps.json
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\bin\Debug\net9.0\VendingMachine.Data.dll
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\bin\Debug\net9.0\VendingMachine.Data.pdb
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.csproj.AssemblyReference.cache
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.AssemblyInfoInputs.cache
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.AssemblyInfo.cs
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.csproj.CoreCompileInputs.cache
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.sourcelink.json
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.dll
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\refint\VendingMachine.Data.dll
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\VendingMachine.Data.pdb
+C:\Users\londelord\Documents\TestTasks\Intravision\backend\VendingMachine.Data\obj\Debug\net9.0\ref\VendingMachine.Data.dll

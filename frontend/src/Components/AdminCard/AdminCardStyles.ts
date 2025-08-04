@@ -5,10 +5,12 @@ export const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  padding: 16px;
+  text-align: center;
+  padding: 4px;
   width: 250px;
   gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0;
 `;
 
 export const StyledImage = styled.img`
@@ -18,6 +20,10 @@ export const StyledImage = styled.img`
 `
 
 export const StyledProperty = styled("div")`
+  display: flex;
+  flex-direction: row;
   gap: 16px;
   margin-top: 8px;
+  justify-content: end;
+  align-items: center;
 `;

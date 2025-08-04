@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { setSelectedBrand } from "../../Stores/Slices/FilterSlicer.ts";
 import {
   clearChange,
-  clearCoinQuantities,
-  setSum,
+  clearCoinQuantities, setProductQuantities,
+  setSum
 } from "../../Stores/Slices/OrderSlice.ts";
 import {
   setProducts,
@@ -34,6 +34,7 @@ const ChangePage = () => {
     dispatch(setSelectedBrand(null));
     dispatch(setSum(0));
     dispatch(setSelectedProducts([]));
+    dispatch(setProductQuantities([]))
     dispatch(clearChange());
     dispatch(clearCoinQuantities());
     const newProductList = await BackendService.GetAllProducts();

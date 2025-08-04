@@ -40,6 +40,10 @@ const orderSlice = createSlice({
       }
     },
 
+    setProductQuantities(state, action: PayloadAction<ProductQuantity[]>) {
+      state.productQuantities = action.payload;
+    },
+
     removeProductQuantity(state, action: PayloadAction<number>) {
       state.productQuantities = state.productQuantities.filter(
         (product) => product.id !== action.payload,
@@ -82,6 +86,7 @@ export const {
   updateProductQuantities,
   removeProductQuantity,
   updateCoinQuantity,
+  setProductQuantities,
   clearChange,
   setChange,
   clearCoinQuantities,

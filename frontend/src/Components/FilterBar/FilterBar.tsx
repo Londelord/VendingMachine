@@ -1,9 +1,8 @@
 ﻿import { Slider, Select, ConfigProvider } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../Stores/Store.ts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  setAvailableRange,
   setFilteredProducts,
   setFilterRange,
   setSelectedBrand,
@@ -15,6 +14,9 @@ import {
   MinLabel,
   SliderWrapper,
 } from "./FilterBarStyles.ts";
+import { BackendService } from "../../BackendService/BackendService.ts";
+import type { Product } from "../../types.ts";
+import type { GetAllProductsRequest } from "../../BackendService/Contracts.ts";
 
 const FilterBar = () => {
   const dispatch = useDispatch();
@@ -23,73 +25,90 @@ const FilterBar = () => {
   const products = useSelector(
     (state: RootState) => state.product_brands.products,
   );
-
-  const availableRange = useSelector(
-    (state: RootState) => state.filter.availableRange,
-  );
   const range = useSelector((state: RootState) => state.filter.priceRange);
   const selectedBrand = useSelector(
     (state: RootState) => state.filter.selectedBrand,
   );
 
-  const shouldShowSlider = availableRange[0] !== availableRange[1];
+  const [localAvailableRange, setLocalAvailableRange] = useState<
+    [number, number]
+  >([0, 0]);
+  const [localProducts, setLocalProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (selectedBrand) {
-      const brandProducts = products.filter(
-        (p) => p.brand.id === selectedBrand.id,
-      );
-      if (brandProducts.length > 0) {
-        const min = Math.min(...brandProducts.map((p) => p.price));
-        const max = Math.max(...brandProducts.map((p) => p.price));
+  const fetchFilteredByBrand = async (brandName: string | null) => {
+    setIsLoading(true);
+    try {
+      const request: GetAllProductsRequest = {
+        brandName: brandName,
+        startPrice: null,
+        endPrice: null,
+      };
+
+      const brandFilteredProducts =
+        await BackendService.GetAllProducts(request);
+
+      setLocalProducts(brandFilteredProducts);
+      dispatch(setFilteredProducts(brandFilteredProducts));
+
+      if (brandFilteredProducts.length > 0) {
+        const prices = brandFilteredProducts.map((p) => p.price);
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+
+        setLocalAvailableRange([min, max]);
         dispatch(setFilterRange([min, max]));
       } else {
+        setLocalAvailableRange([0, 0]);
         dispatch(setFilterRange([0, 0]));
       }
-    } else if (products.length > 0) {
-      const min = Math.min(...products.map((p) => p.price));
-      const max = Math.max(...products.map((p) => p.price));
-      dispatch(setFilterRange([min, max]));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-  }, [selectedBrand, products, dispatch]);
+  };
+
+  const fetchFilteredByRange = async (
+    brandName: string | null,
+    range: [number, number],
+  ) => {
+    setIsLoading(true);
+
+    try {
+      const filtered = await BackendService.GetAllProducts({
+        brandName,
+        startPrice: range[0],
+        endPrice: range[1],
+      });
+
+      dispatch(setFilteredProducts(filtered));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    filterProducts();
-  }, [range, selectedBrand]);
+    const brandName = selectedBrand?.name || null;
+    fetchFilteredByBrand(brandName);
+  }, [selectedBrand]);
 
-  const filterProducts = (): void => {
-    let filtered = products;
-
-    if (selectedBrand) {
-      filtered = filtered.filter((p) => p.brand.id === selectedBrand.id);
-    }
-
-    const newMin =
-      filtered.length > 0 ? Math.min(...filtered.map((p) => p.price)) : 0;
-    const newMax =
-      filtered.length > 0 ? Math.max(...filtered.map((p) => p.price)) : 0;
-
-    dispatch(setAvailableRange([newMin, newMax]));
-
-    const [currentMin, currentMax] = range;
-    const adjustedMin = Math.max(newMin, currentMin);
-    const adjustedMax = Math.min(newMax, currentMax);
-
-    const priceFiltered = filtered.filter(
-      (p) => p.price >= adjustedMin && p.price <= adjustedMax,
-    );
-
-    dispatch(setFilteredProducts(priceFiltered.sort((a, b) => a.id - b.id)));
-  };
+  useEffect(() => {
+    fetchFilteredByRange(selectedBrand?.name || null, range);
+  }, [range]);
 
   const onRangeChange = (value: number[]) => {
     dispatch(setFilterRange([value[0], value[1]]));
   };
 
   const handleBrandChange = (value: number | null) => {
-    const brand = brands.find((b) => b.id === value);
-    dispatch(setSelectedBrand(brand || null));
+    const brand = brands.find((b) => b.id === value) || null;
+    dispatch(setSelectedBrand(brand));
   };
+
+  const shouldShowSlider =
+    localProducts.length > 0 &&
+    localAvailableRange[0] !== localAvailableRange[1];
 
   return (
     <FilterWrapper>
@@ -107,8 +126,8 @@ const FilterBar = () => {
         <FilterBarCol style={{ width: "100%" }}>
           <label>Стоимость</label>
           <SliderWrapper>
-            <MinLabel>{availableRange[0]} руб.</MinLabel>
-            <MaxLabel>{availableRange[1]} руб.</MaxLabel>
+            <MinLabel>{localAvailableRange[0]} руб.</MinLabel>
+            <MaxLabel>{localAvailableRange[1]} руб.</MaxLabel>
             <ConfigProvider
               theme={{
                 components: {
@@ -121,11 +140,11 @@ const FilterBar = () => {
             >
               <Slider
                 range
-                min={availableRange[0]}
-                max={availableRange[1]}
+                min={localAvailableRange[0]}
+                max={localAvailableRange[1]}
                 value={[range[0], range[1]]}
                 onChange={shouldShowSlider ? onRangeChange : undefined}
-                disabled={!shouldShowSlider}
+                disabled={!shouldShowSlider || isLoading}
                 tooltip={{
                   formatter: (value) => `${value} руб.`,
                   placement: "top",
@@ -144,5 +163,4 @@ const FilterBar = () => {
     </FilterWrapper>
   );
 };
-
 export default FilterBar;

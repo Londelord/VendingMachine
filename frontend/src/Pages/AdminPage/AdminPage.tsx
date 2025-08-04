@@ -1,6 +1,6 @@
 ﻿import { useEffect } from "react";
 import { BackendService } from "../../BackendService/BackendService.ts";
-import { Button, Divider, notification, Upload, type UploadProps } from "antd";
+import { Divider, notification, Upload, type UploadProps } from "antd";
 import AdminList from "../../Components/AdminList/AdminList.tsx";
 import AdminNavbar from "../../Components/AdminNavbar/AdminNavbar.tsx";
 import type { AppDispatch } from "../../Stores/Store.ts";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import type { AddProductRequest } from "../../BackendService/Contracts.ts";
 import * as XLSX from "xlsx";
 import { CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
-import { MainDiv, StyledHeader } from "./AdminPageStyles.ts";
+import { MainDiv, StyledGreenButton, StyledHeader, ToRootButton } from "./AdminPageStyles.ts";
 import useLock from "../../Hooks/UseLock.ts";
 
 interface ExcelProduct {
@@ -109,9 +109,9 @@ function AdminPage() {
         <h1 style={{ margin: "auto auto auto 0" }}>Admin Page</h1>
         <div style={{ margin: "auto 0", display: "flex", gap: "16px" }}>
           <Upload {...uploadProps}>
-            <Button>Импорт</Button>
+            <StyledGreenButton>Импорт</StyledGreenButton>
           </Upload>
-          <Button onClick={() => navigate("/")}>Назад</Button>
+          <ToRootButton onClick={() => navigate("/")}>Назад</ToRootButton>
         </div>
       </StyledHeader>
       <Divider />
